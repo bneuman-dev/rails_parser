@@ -1,0 +1,7 @@
+<%= csrf_meta_tags %>
+<%= form_for(:scrapings, url: scrapers_path) do |f| %>
+	<%= f.label :url %>
+	<%= f.text_field :url %>
+
+	<%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
+<% end%>

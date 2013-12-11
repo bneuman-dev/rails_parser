@@ -1,0 +1,68 @@
+#floatbutton {
+	position: fixed;
+	display: inline;
+	top: 100px; 
+	left: 2px;
+	z-index: 1;
+}
+
+#floatbutton2 {
+	position: fixed;
+	display: inline;
+	top: 150px;
+	left: 2px;
+	z-index: 1;
+}
+
+#floatbutton3 {
+	position: fixed;
+	display: inline;
+	top: 200px; 
+	left: 2px;
+	z-index: 1;
+}
+#popUpDialog {
+	 background-color: #000000;
+	 display:none;
+	 position: fixed; 
+	 top: 200px; 
+	 left: 2px; 
+	 width: 120px; 
+	 height: 120px;
+	 z-index: 1;
+}
+
+#bcktrk {
+	display:none;
+}
+
+#toomuch {
+	display:none;
+}
+
+#toolittle {
+	display:none;
+}
+
+#nobutton {
+	display:none;
+}
+
+#yesbutton {
+	display:'inline-block';
+}
+
+#fuckespn {
+	display: inline;
+	position: fixed;
+	float: left;
+	z-index: 1;
+	margin-left: 2px;
+}
+
+#esper {
+	left: 200px;
+	right:0px;
+	width:1250px;
+	height:750px;
+}

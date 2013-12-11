@@ -1,0 +1,4 @@
+espn.go.com|espn-body espn-parent espn-string
+gawker.com|gawker-body gawker-parent gawker-string
+grantland.com|grantland-body grantland-parent grantland-string
+avclub.com|avclub-body avclub-parent avclub-string

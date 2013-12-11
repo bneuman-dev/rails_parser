@@ -1,4 +1,9 @@
 Parser::Application.routes.draw do
+  match '/scrapers/:id/edit', to: "scrapers#edit", via: 'post', as: "edit_scraper"
+  resources :scrapers
+  match '/scrapers/:id/update', to: "scrapers#update", via: 'get', as: "scraper_update"
+ 
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,0 +1,4 @@
+vote-module
+Associated Press
+begin inline
+end inline
