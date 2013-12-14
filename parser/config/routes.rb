@@ -1,8 +1,11 @@
 Parser::Application.routes.draw do
+  get "posts/new"
+  match 'domain_rules/', to: 'domain_rules#create', via: 'post', as: "domain_rules_create"
+  resources :domain_rules
   match '/scrapers/:id/edit', to: "scrapers#edit", via: 'post', as: "edit_scraper"
   resources :scrapers
   match '/scrapers/:id/update', to: "scrapers#update", via: 'get', as: "scraper_update"
- 
+  resources :posts 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

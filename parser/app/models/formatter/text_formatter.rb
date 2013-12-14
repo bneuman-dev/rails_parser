@@ -3,6 +3,7 @@ class Text_Formatter
     body = remove_comments(body)
     body = make_body_text_only(body)
     body = restore_links(body)
+    body = sanitize(body)
     body = fix_p_tags(body)
     body = join_body_together(body)
   end
@@ -23,9 +24,7 @@ class Text_Formatter
 
   def restore_links(body)
     #Hopefully we can still look at text nodes parents here
-    body = body.collect do |text_node|
-      restore_link(text_node)
-    end
+    body.collect { |text_node| restore_link(text_node) }
   end
 
   def restore_link(text_node)
@@ -42,16 +41,26 @@ class Text_Formatter
       "<a href='" + text_node.parent['href'] + "'>" + text_node.text + "</a>"
 
     else
-      text_node
+      text_node.text
     end
 
   end
 
+  def sanitize(body)
+    body.collect {|text| sanitize_utf8(text)}
+  end
+  
+  def sanitize_utf8(string)
+    return nil if string.nil?
+    return string if string.valid_encoding?
+    string.chars.select { |c| c.valid_encoding? }.join
+  end
+
   def fix_p_tags(body)
-    body = body.collect {|text| text.gsub("\n", "<p>")}
+    body.collect {|text| text.gsub("\n", "<p>")}
   end
 
   def join_body_together(body)
-    body = body.join(' ')
+    body.join(' ')
   end
 end

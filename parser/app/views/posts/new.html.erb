@@ -1,0 +1,7 @@
+<%= csrf_meta_tags %>
+<%= form_for(:posts, url: posts_path) do |f| %>
+	<%= f.label :url %>
+	<%= f.text_field :url %>
+
+	<%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+<% end%>

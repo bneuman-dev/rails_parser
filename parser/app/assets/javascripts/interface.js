@@ -51,8 +51,8 @@ function parse_attributes(attributes) {
 };
 */
 
-var shithead = [];
-var dickhead = [];
+var bad_rules = [];
+var good_rules = [];
 
 function get_buttons() {
 	var buttons = {
@@ -100,8 +100,10 @@ function remove_selection(container, backtrack) {
 
 	buttons.yes.onclick = function () {
 		hide_buttons(buttons.popUp, buttons.too_much, buttons.too_little);
-		var taggert = new Taggert(container, $(container).parent()[0]);
-		shithead.push(taggert);
+		$(container).show();
+		var tag = new Tag(container);
+		$(container).hide();
+		bad_rules.push(tag);
 	};
 
 	buttons.too_much.onclick = function () { 
@@ -159,8 +161,10 @@ function check_child(children, i) {
 	$(child).hide();
 
 	buttons.yes.onclick = function () {
-		var taggert = new Taggert(child, $(child).parent()[0]);
-		shithead.push(taggert);
+		$(child).show()
+		var tag = new Tag(child);
+		$(child).hide()
+		bad_rules.push(tag);
 		hide_buttons(buttons.popUp, buttons.no);
 		child_iterator(children, i + 1);
 	};
@@ -182,15 +186,14 @@ function body_finder() {
 
 function body_selector(container, backtrack) {
 	var buttons = get_buttons();
-	var siblings = $(container).siblings();
+	var siblings = $(container).siblings().not("[style*='display: none;']").not("div[id*='fuckespn']");
 	siblings.hide();
-
 	show_buttons(buttons.popUp, buttons.too_much, buttons.too_little);
-
+	
 	buttons.yes.onclick = function () {
 		hide_buttons(buttons.popUp, buttons.too_much, buttons.too_little);
-		var taggert = new Taggert(container, $(container).parent()[0]);
-		dickhead.push(taggert);
+		var tag = new Tag(container);
+		good_rules.push(tag);
 	};
 
 	buttons.too_much.onclick = function () {
@@ -203,18 +206,22 @@ function body_selector(container, backtrack) {
 	};
 
 	buttons.too_little.onclick = function () {
-		hide_buttons(buttons.popUp, buttons.too_much, buttons.too_little);
 		siblings.show();
 		backtrack.push(container);
+
+		if ($(container).parent()[0].tagName.toLowerCase() == "body") {
+			hide_buttons(buttons.too_little);
+		}
+
+		else {
+		hide_buttons(buttons.popUp, buttons.too_much, buttons.too_little);
 		body_selector($(container).parent()[0], backtrack);
+	   };
 	};
 
 	};
 
-function Taggert(tag, parent) {
-	this.tag = new Tag(tag);
-	this.parent = new Tag(parent);
-};
+
 
 function Tag(tag) {
 	this.name = tag.tagName;
@@ -230,7 +237,28 @@ function Tag(tag) {
 };
 
 function save_info() { 
-	var assface = {bad: shithead, good: dickhead}
 	
-	send_info(assface);
+	var data = {};
+
+	if (bad_rules.length > 0) {
+		data.bad = bad_rules;
+	};
+
+	if (good_rules.length > 0) {
+		data.good = good_rules;
+	};
+
+	if (bad_rules.length != 0 || good_rules.length != 0) {
+		send_info(data);
+	};
+
 };
+
+/*
+var taggert = new Taggert(container, $(container).parent()[0]);
+
+function Taggert(tag, parent) {
+	this.tag = new Tag(tag);
+	this.parent = new Tag(parent);
+};
+*/

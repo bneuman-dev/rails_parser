@@ -1,0 +1,10 @@
+<%= @domains.each do |domain| %>
+	<p> <%= domain.url %> </p> 
+	<%= rule_helper(domain.good_rules).each do |rule| %>
+		<p><%= rule[:name]%> || <%= rule[:attributes].each do |attr| %> <%= attr['name'] %> = <%= attr['values'] %>, <%end%> </p>
+	<%end%>
+	<p>Bad Rules:</p>
+	<%= rule_helper(domain.bad_rules).each do |rule| %>
+		<p><%= rule[:name]%> || <%= rule[:attributes].each do |attr| %> <%= attr['name'] %> = <%= attr['values'] %>, <%end%> </p>
+	<%end%>
+<% end %>

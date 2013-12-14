@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131210191250) do
+ActiveRecord::Schema.define(version: 20131211174838) do
+
+  create_table "domain_rules", force: true do |t|
+    t.string   "url"
+    t.text     "good_rules"
+    t.text     "bad_rules"
+    t.text     "string_rules"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "domain_rules", ["url"], name: "index_domain_rules_on_url", unique: true
+
+  create_table "posts", force: true do |t|
+    t.string   "url"
+    t.text     "html"
+    t.text     "f_html"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "posts", ["url"], name: "index_posts_on_url", unique: true
 
   create_table "scrapers", force: true do |t|
     t.string   "url"

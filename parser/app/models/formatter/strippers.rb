@@ -18,7 +18,7 @@ class Stripper
   end
 
   def format
-    body = formatter.format(@doc)
+    formatter.format(@doc)
   end
 
   def doc

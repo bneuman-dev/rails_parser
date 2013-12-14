@@ -2,7 +2,6 @@ require '/users/bneuman/rails-parser/parser/app/models/formatter/strippers'
 
 class ScrapersController < ApplicationController
 
-
 	def create
 		url = params[:scrapings][:url]
 		noko = nokoify(url)
@@ -20,29 +19,36 @@ class ScrapersController < ApplicationController
 		head = doc.css('head')[0]
 		body = doc.css('body')[0]
 		noko_string = {head: head.serialize, body: body.serialize}
-		
-		##fn = url.split('/')[-1]
-		#fn += ".html" unless fn.include? 'html'
-		#file = File.open(fn, 'w')
-		#file.write(noko_string)
-		#file.close
-		#fn
 	end
 	
 	def edit
 		@scraper = Scraper.find(params[:id])
-		@scraper.good_rules = params[:good].to_s
-		@scraper.bad_rules = params[:bad].to_s
+		@scraper.good_rules = save_rules_helper(params[:good]) unless params[:good] == nil
+		@scraper.bad_rules = save_rules_helper(params[:bad]) unless params[:bad] == nil
 		@scraper.save
 		render nothing: true
 	end
 
 	def update
-		FormattersFactory.new(Configurator.new(Scraper.all).config_hash)
-		@scraper = Scraper.find(params[:id])
-		@scraper.mod_html = HTML_Doc.new(@scraper.url).processed_doc
-		@scraper.save
-		render
+		scraper = Scraper.find(params[:id])
+		redirect_to edit_post_path(url: scraper.url) 
+		#WANT TO REDIRECT TO posts CREATE ACTION
+	end
+
+	def save_rules_helper(rules)
+		rules_formatted = rules.values.collect do |rule|
+			{name: rule['name'].downcase,
+				attributes: attr_helper(rule['attributes'].values),}
+		end
+		JSON.generate(rules_formatted).gsub("=>", ":")
 	end
 	
+	def attr_helper(attributes)
+		attributes.reject! {|attribute| attribute['name'] == 'style'}
+		attributes.collect do |attribute|
+			{name: attribute['name'],
+			values: attribute['values'].split(' '),}
+		end
+	end
+
 end

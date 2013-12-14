@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  url: MyString
+  good_rules: MyText
+  bad_rules: MyText
+  string_rules: MyText
+
+two:
+  url: MyString
+  good_rules: MyText
+  bad_rules: MyText
+  string_rules: MyText

@@ -21,6 +21,14 @@
 	left: 2px;
 	z-index: 1;
 }
+
+.button_to {
+	position: fixed;
+	display: inline;
+	top: 250px; 
+	left: 2px;
+	z-index: 1;
+}
 #popUpDialog {
 	 background-color: #000000;
 	 display:none;

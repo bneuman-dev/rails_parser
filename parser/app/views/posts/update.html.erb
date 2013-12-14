@@ -1,0 +1,16 @@
+<HTML>
+<head>
+<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+<%= csrf_meta_tags %>
+</head>
+<body>
+	<%= @post.f_html.html_safe %>
+
+<footer>
+	<h4>
+	<%= link_to 'Reformulate Rules',  new_scraper_path(url: @post.url) %>
+</h4>
+</footer>
+</body>
+</html>

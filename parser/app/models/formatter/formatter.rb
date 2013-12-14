@@ -20,7 +20,8 @@ class Formatter
       return nodeset
 
     else
-      return results
+      return results unless results.empty?
+      return nodeset if results.empty?
     end
 
   end

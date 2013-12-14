@@ -21,6 +21,7 @@
 <button onclick="selectify()" id="floatbutton">Click when you have selected UNWANTED text</button>
 <button id="floatbutton2" onclick="body_finder()">Click when you have selected WANTED text</button>
 <button onclick="save_info()" id="floatbutton3">Send info</button>
+<%= button_to 'Generalize rule', domain_rules_create_path(:id => @scraper.id) %>
 <div id="popUpDialog">
 <button id="yesbutton">Yes</button>
 <button id="nobutton">No</button>
