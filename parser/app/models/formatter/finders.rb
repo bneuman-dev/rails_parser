@@ -1,73 +1,78 @@
 require 'nokogiri'
 require 'open-uri'
-require_relative 'formatters'
 
-class String_Finder
-  attr_reader :checks, :finders
-	def initialize(config)
-		@config = config
-		@checks = make_checks
-    @finders = make_finders
-	end
+class Finder
+  attr_reader :finders
 
-	def make_checks
-    @config.collect {|line| make_check(line.chomp)}
-  end
-
-  def make_finders
-    @checks.collect {|check| make_finder(check)}
+  def initialize(config)
+    @finders = config[:finder_class].new(config[:finder_rules]).finders
   end
 
   def find(nodeset)
     @finders.collect {|finder| finder.call(nodeset)}.reduce(:+)
-  end
-
-  def make_check(string)
-    "//*[text()[contains(.,'#{string}')]]"  
-  end
-
-  def make_finder(xpath_check)
-    Proc.new { |nodeset| nodeset.search(xpath_check)}
   end
 end
 
 class CSS_Finder
-  attr_reader :checks, :finders
-  def initialize(config)
-    @rules = config
-    @css_selectors = make_css_selectors
+  attr_reader :finders
+  def initialize(rules)
+    @rules = rules
+    @selectors = make_selectors
     @finders = make_finders
   end
 
-  def find(nodeset)
-    @finders.collect {|finder| finder.call(nodeset)}.reduce(:+)
-  end
-
-  def make_css_selectors
-   @rules.collect {|rule| 
-      make_css_selector(rule[:name], rule[:attributes]) 
-    }
-  end
-
-  def make_css_selector(name, attributes)
-    attr_checks = attributes.collect do |attribute|
-      make_attr_specifier(attribute[:name], attribute[:values])
-    end
-    name + attr_checks.join
-  end
-
-  def make_attr_specifier(attr, vals)
-    vals.collect {|val| "[#{attr}*='#{val}']"}
+  def make_selectors
+    @rules.collect {|rule| CSS_Selector.new(rule).selector}
   end
 
   def make_finders
-    @css_selectors.collect {|css_selector| make_finder(css_selector)}
+    @selectors.collect {|selector| make_finder(selector)}
   end
 
-  def make_finder(css_selector)
-    Proc.new { |nodeset| nodeset.css(css_selector)}
+  def make_finder(selector)
+    Proc.new { |nodeset| nodeset.css(selector)}
   end 
 end
 
+class CSS_Selector
+  attr_reader :selector
 
+  def initialize(rule)
+    @name = rule[:name]
+    @attributes = rule[:attributes]
+    @selector = make_css_selector
+  end
 
+  def make_css_selector
+    @name + @attributes.collect {|attribute| make_attr_specifier(attribute)}.join
+  end
+  
+  def make_attr_specifier(attribute)
+    attribute[:values].collect {|val| "[#{attribute[:name]}*='#{val}']"}
+  end
+end
+
+class String_Finder
+  attr_reader :checks, :finders
+  def initialize(config)
+    @rules = config
+    @selectors = make_selectors
+    @finders = make_finders
+  end
+
+  def make_selectors
+    @rules.collect {|rule| make_selector(rule.chomp)}
+  end
+
+  def make_selector(string)
+    "//*[text()[contains(.,'#{string}')]]"  
+  end
+
+  def make_finders
+    @selectors.collect {|selector| make_finder(selector)}
+  end  
+
+  def make_finder(selector)
+    Proc.new { |nodeset| nodeset.search(selector)}
+  end
+end

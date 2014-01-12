@@ -1,4 +1,4 @@
-<HTML>
+d<HTML>
 <head>
 <%= @scraper.html_head.html_safe %>
 <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
@@ -6,17 +6,6 @@
 <%= csrf_meta_tags %>
 </head>
 <body>
-<script>
-	function send_info(data) {
-	$.ajax({     
-    type: 'POST',
-    url: "<%= edit_scraper_path %>",
-    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-    data: data,                                        
-   });
-};
-</script>
-
 <div id="fuckespn">
 <button onclick="selectify()" id="floatbutton">Click when you have selected UNWANTED text</button>
 <button id="floatbutton2" onclick="body_finder()">Click when you have selected WANTED text</button>

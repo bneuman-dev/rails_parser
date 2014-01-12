@@ -1,0 +1,8 @@
+div|class mod-content
+div|class mod-author-bio
+div|class mod-article-title
+div|class mod-video-tags
+div|class mod-video-playlist
+div|class mod-inline,video-player,full-box,with-playlist,next
+div|class mod-inline,image,image-right
+ul|class mod-page-actions

@@ -1,4 +1,4 @@
-class Text_Formatter
+class TextFormatter
   def format(body)
     body = remove_comments(body)
     body = make_body_text_only(body)
