@@ -1,4 +1,9 @@
 require_relative 'formatters_factory'
+require_relative 'configurators'
+require_relative 'formatter'
+require_relative 'master_formatter'
+require_relative 'rules_helper'
+require_relative 'text_formatter'
 require 'nokogiri'
 require 'open-uri'
 
@@ -10,7 +15,7 @@ class Stripper
   end
 
   def get_formatter(url)
-    FormattersFactory.get_formatter(url)
+    Formatters.get_formatter(url)
   end
 
   def formatter

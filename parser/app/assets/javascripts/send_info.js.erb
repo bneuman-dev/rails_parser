@@ -1,8 +1,0 @@
-function send_info(data) {
-	$.ajax({     
-    type: 'POST',
-    url: "<%= Rails.application.routes.url_helpers.edit_scraper_path(data[params][id]) %>",
-    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-    data: data,                                        
-   });
-};

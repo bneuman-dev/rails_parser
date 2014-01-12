@@ -29,10 +29,15 @@ def sql_configure(sql)
   Formatters.make_formatters(SQL_Configurator.new(sql).config_hash)
 end
 
+def text_configure
+  Formatters.make_formatters(Text_Configurator.new("rules/config.txt").config_hash)
+end
+
 class Text_Configurator
   attr_reader :config_hash
 
   def initialize(text_file)
+    @script_rule = {name: 'script', attributes: []}
     @text = File.open(text_file)
     @dir_path = text_file.split('/')[0...-1].join('/')
     @dir_path += '/' unless @dir_path == ""
@@ -49,18 +54,24 @@ class Text_Configurator
   end
 
   def make_rules(rule_files)
-    rule_files.collect do |file|
+    rules = rule_files.collect do |file|
       finder_type, file = file.split(':')
       [{finder_class: @finder_type_hash[finder_type], finder_rules: parse_rule_file(file, finder_type)}]
     end
+    rules[1].push(true)
+    #rules[2].push(true)
+    rules
   end
 
   def parse_rule_file(file, finder_type)
-    File.open(@dir_path + file).collect {|line| parse_rule_line(line)} if finder_type == 'css'
-    File.open(@dir_path + file).collect {|line| line.chomp('\n')} if finder_type == 'string'
+    rules = File.open(@dir_path + file).readlines.collect {|line| parse_rule_line(line)} 
+    rules << @script_rule
+    #elsif finder_type == 'string'
+    #  File.open(@dir_path + file).readlines.collect {|line| line.chomp('\n')}
+    #end
   end
 
-  def parse_rule_line_css(line)
+  def parse_rule_line(line)
     tag_name, attributes = line.split('|')
     attributes = attributes.split(':::')
     attributes.collect! do |attribute|

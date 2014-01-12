@@ -2,6 +2,7 @@ require_relative 'finders'
 require_relative 'master_formatter'
 require_relative 'text_formatter'
 require_relative 'rules_helper'
+require_relative 'formatter'
 
 class Formatters
   def self.formatters

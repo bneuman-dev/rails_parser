@@ -16,7 +16,7 @@ function get_selection() {
 }
 
 function remove_everything() {
-	var everything = $('body').children().not("div[id*='fuckespn']");
+	var everything = $('body').children().not("div[id*='cheatespn']");
 	var everything_filtered = filter_list(everything);
 	var remove = new ElementsRemover(everything_filtered);
 	remove.remove();
@@ -232,9 +232,9 @@ function BodySelector(selection) {
 	
 		that.buttons.buttons.yes.onclick = function () { hide_buttons(); yes(); };
 
-		that.buttons.buttons.too_much.onclick = function () { hide_buttons(); too_much; };
+		that.buttons.buttons.too_much.onclick = function () { hide_buttons(); too_much(); };
 
-		that.buttons.buttons.too_little.onclick = function () { hide_buttons(); too_little; };
+		that.buttons.buttons.too_little.onclick = function () { hide_buttons(); too_little(); };
 	}
 
 	var yes = function ()  {
@@ -263,7 +263,7 @@ function BodySelector(selection) {
 	}
 
 	var get_siblings = function(element) {
-		var siblings = $(element).siblings().not("div[id*='fuckespn']");
+		var siblings = $(element).siblings().not("div[id*='cheatespn']");
 	  return filter_list(siblings);
 	}
 
@@ -324,6 +324,15 @@ function save_info() {
 	};
 
 };
+
+// function send_info(data) {
+// 	$.ajax({     
+//     type: 'POST',
+//     url: "<%= Rails.application.routes.url_helpers.edit_scraper_path(data[params][id]) %>",
+//     beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+//     data: data,                                        
+//    });
+// };
 
 /*
 var taggert = new Taggert(container, $(container).parent()[0]);
